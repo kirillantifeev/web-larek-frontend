@@ -1,20 +1,32 @@
+import { ApiPostMethods } from "../components/base/api";
+
 export interface IProduct {
-    _id: string;
+    id: string;
     title: string;
     category: string;
-    price: string;
+    price: number;
     description: string;
-    link: string;
+    image: string;
 
 }
+
+export interface IAppState {
+    catalog: IProduct[];
+    basket: string[];
+    preview: string | null;
+    order: IOrder | null;
+    loading: boolean;
+    total: number;
+}
+
 
 export interface IOrder {
     payment: string;
     email: string;
-    phone: number;
+    phone: string;
     address: string;
-    total: number;
     items: string[];
+    total: number;
 }
 
 export interface IProductList {
@@ -23,13 +35,11 @@ export interface IProductList {
 }
 
 export interface IBasketData {
-    items: TProductBasket[];
-    addProduct(product: TProductBasket): void;
+    items: IProduct[];
+    addProduct(product: IProduct): void;
     deleteProduct(productId: string): void;
-    checkValidation(items: TProductBasket[]): boolean;
 }
 
-//export interface IOrder
 
 export type TProductBasket = Pick<IProduct, 'title' | 'price'>[];
 
@@ -37,4 +47,13 @@ export type TOrderPayment = Pick<IOrder, 'payment' | 'address'>;
 
 export type TOrderUser = Pick<IOrder, 'email' | 'phone'>;
 
-export type TProductList = Pick<IProduct, '_id' | 'price' | 'category' | 'link' | 'title'>;
+export type TProductList = Pick<IProduct, 'id' | 'price' | 'category' | 'image' | 'title'>;
+
+export type TApiPostMethods = 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+
+
+export interface IApi {
+    baseUrl: string;
+    get<T>(uri :string) :Promise<T>;
+    post<T>(uri: string, data: object, method?: TApiPostMethods): Promise<T>;
+}
