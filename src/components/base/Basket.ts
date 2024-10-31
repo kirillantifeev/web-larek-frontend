@@ -1,3 +1,4 @@
+import { ensureElement } from "../../utils/utils";
 import { Component } from "./Component";
 import { IEvents } from "./events";
 
@@ -16,9 +17,12 @@ export class BasketModal extends Component<IBasketModal>{
     constructor(protected container: HTMLElement, events: IEvents) {
         super(container);
         this.events = events;
-        this.content = container.querySelector('.basket__list');
-        this.basketButton = container.querySelector('.basket__button');
-        this.basketСounter = container.querySelector('.basket__price');
+        //this.content = container.querySelector('.basket__list');
+        this.content = ensureElement('.basket__list', container);
+        //this.basketButton = container.querySelector('.basket__button');
+        this.basketButton = ensureElement<HTMLButtonElement>('.basket__button', container);
+        // this.basketСounter = container.querySelector('.basket__price');
+        this.basketСounter = ensureElement('.basket__price', container);
 
         this.basketButton.addEventListener('click', () => {
             this.events.emit('order:open');

@@ -1,3 +1,4 @@
+import { ensureElement } from "../../utils/utils";
 import { IEvents } from "./events";
 import { Form } from "./Form";
 
@@ -7,7 +8,8 @@ export class Contacts extends Form {
 
     constructor(protected container: HTMLFormElement, events: IEvents) {
         super(container, events);
-        this.submitButton = this.container.querySelector('.contacts_button');
+        this.submitButton = ensureElement<HTMLButtonElement>('.contacts_button', container);    
+
         this.buttonSelected = 'selected';
 
         this.submitButton.addEventListener('click', (evt) => {

@@ -1,3 +1,4 @@
+import { ensureAllElements, ensureElement } from "../../utils/utils";
 import { Component } from "./Component";
 import { IEvents } from "./events";
 
@@ -22,7 +23,9 @@ export abstract class Form extends Component<IModalForm>{
 		this.inputs =
 			this.container.querySelectorAll<HTMLInputElement>('.form__input');
             //this.submitButton = this.container.querySelector('.order__button');
-            this.inputList = Array.from(this.container.querySelectorAll('.form__input'));
+            this.inputList = Array.from(ensureAllElements('.form__input', container));
+            //this.input = this.container.querySelector('.form__input')
+
             this.input = this.container.querySelector('.form__input')
     }
     

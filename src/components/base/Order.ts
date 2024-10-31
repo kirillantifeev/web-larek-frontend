@@ -1,3 +1,4 @@
+import { ensureElement } from "../../utils/utils";
 import { IEvents } from "./events";
 import { Form } from "./Form";
 
@@ -10,9 +11,13 @@ buttonCash: HTMLButtonElement;
 
     constructor(protected container: HTMLFormElement, events: IEvents) {
         super(container, events);
-        this.submitButton = this.container.querySelector('.order__button');
-        this.buttonCard = this.container.querySelector('.button_card')
-        this.buttonCash = this.container.querySelector('.button_cash');
+        this.submitButton = ensureElement<HTMLButtonElement>('.order__button', container);
+
+        this.buttonCard = ensureElement<HTMLButtonElement>('.button_card', container);
+
+        this.buttonCash = ensureElement<HTMLButtonElement>('.button_cash', container);
+
+
 
         this.submitButton.addEventListener('click', (evt) => {
             events.emit('contacts:open')

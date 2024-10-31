@@ -1,3 +1,4 @@
+import { ensureElement } from "../../utils/utils";
 import { Component } from "./Component";
 import { IEvents } from "./events";
 
@@ -14,8 +15,8 @@ export class ProductList extends Component<IProductList>{
     constructor(protected container: HTMLElement, events: IEvents) {
         super(container);
         this.events = events;
-        this.basketButton = document.querySelector('.header__basket');
-        this.basketСounter = document.querySelector('.header__basket-counter');
+        this.basketButton = ensureElement<HTMLButtonElement>('.header__basket');
+        this.basketСounter = ensureElement<HTMLElement>('.header__basket-counter');
 
         this.basketButton.addEventListener('click', () => {
             this.events.emit('basket:open');

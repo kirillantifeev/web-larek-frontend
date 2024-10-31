@@ -46,7 +46,8 @@ export class AppState extends Model<IAppState> implements IProductList{
 
         addProduct(product: string) {
             //if (this._items.some(function (prod) {return prod === product})) {
-            this._basket = [product, ...this._basket]
+            //this._basket = [product, ...this._basket]
+            this._basket.push(product)
             this.events.emit('basketData:change')
         }
 

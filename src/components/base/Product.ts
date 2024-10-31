@@ -1,5 +1,5 @@
 import { IProduct } from "../../types";
-import { cloneTemplate } from "../../utils/utils";
+import { cloneTemplate, ensureElement } from "../../utils/utils";
 import { Component } from "./Component";
 import { IEvents } from "./events";
 
@@ -21,6 +21,7 @@ export class Product extends Component<IProduct>{
     protected deleteButton: HTMLButtonElement;
     addBasketButton: HTMLButtonElement;
     itemIndex: HTMLElement;
+    
 
     constructor(protected container: HTMLElement, events: IEvents, actions?: IProductActions) {
         super(container);
@@ -29,11 +30,13 @@ export class Product extends Component<IProduct>{
         // this.preview = preview;
         //this.element = cloneTemplate(template);
 
-        this.productTitle = this.container.querySelector('.card__title');
+        
+        this.productTitle = ensureElement<HTMLElement>('.card__title', container);
         this.productCategory = this.container.querySelector('.card__category');
         this.productImage = this.container.querySelector('.card__image');
-        this.productDescription = this.container.querySelector('.card__text');
-        this.productPrice = this.container.querySelector('.card__price');
+        this.productDescription = this.container.querySelector('.card__text')
+        this.productPrice = ensureElement<HTMLElement>('.card__price', container);
+
 
         this.deleteButton = this.container.querySelector('.basket__item-delete');
         this.addBasketButton = this.container.querySelector('.card__button-add');
@@ -116,6 +119,7 @@ export class Product extends Component<IProduct>{
     set category (category: string) {
         if (this.productCategory) {
         this.productCategory.textContent = category;
+
         }
     };
 
@@ -137,5 +141,9 @@ export class Product extends Component<IProduct>{
     setPreview(item: IProduct) {
     this.preview = item;
     this.events.emit('preview:change', item)
+    }
+
+    get elementCategory() {
+        return this.productCategory
     }
 }

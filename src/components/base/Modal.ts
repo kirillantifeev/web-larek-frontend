@@ -1,3 +1,4 @@
+import { ensureElement } from "../../utils/utils";
 import { Component } from "./Component";
 import { IEvents } from "./events";
 
@@ -14,10 +15,13 @@ export class Modal<T> extends Component<IModalData> {
     constructor (container: HTMLElement, events: IEvents) {
         super(container);
         this.events = events;
-        const closeButtonElement = this.container.querySelector('.modal__close');
+        const closeButtonElement = ensureElement<HTMLButtonElement>('.modal__close', container);
+
         closeButtonElement.addEventListener('click', this.close.bind(this));
 
-        this._content = this.container.querySelector('.modal__content');
+        //this._content = this.container.querySelector('.modal__content');
+        this._content = ensureElement('.modal__content', container);
+
         this._content.addEventListener('click', (event) => event.stopPropagation());
 
         this.container.addEventListener('mousedown', (evt) => {

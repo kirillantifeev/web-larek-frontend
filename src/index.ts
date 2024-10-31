@@ -16,7 +16,7 @@ import { Success } from './components/base/Success';
 import './scss/styles.scss';
 import { IApi, IOrder, IProduct } from './types';
 import { API_URL, CDN_URL, settings } from './utils/constants';
-import { cloneTemplate } from './utils/utils';
+import { cloneTemplate, ensureElement } from './utils/utils';
 
 
 const events = new EventEmitter();
@@ -24,7 +24,7 @@ const events = new EventEmitter();
 const basketData = new BasketData(events);
 const productListData = new ProductListData(events);
 const appData = new AppState({}, events)
-const basketModalTemplate: HTMLTemplateElement = document.querySelector('#basket');
+const basketModalTemplate: HTMLTemplateElement =  ensureElement<HTMLTemplateElement>('#basket');
 
 
 const productList = new ProductList(document.querySelector('.gallery'), events)
@@ -33,19 +33,32 @@ const basketList = new BasketModal(cloneTemplate(basketModalTemplate), events)
 const baseApi: IApi = new Api(API_URL, settings);
 const api = new AppApi(CDN_URL, baseApi);
 
-const cardGalleryTemplate: HTMLTemplateElement = document.querySelector('#card-catalog')
-const cardPreviewTemplate: HTMLTemplateElement = document.querySelector('#card-preview')
-const cardBasketTemplate: HTMLTemplateElement = document.querySelector('#card-basket')
+const cardGalleryTemplate: HTMLTemplateElement = ensureElement<HTMLTemplateElement>('#card-catalog')
+const cardPreviewTemplate: HTMLTemplateElement =  ensureElement<HTMLTemplateElement>('#card-preview')
+const cardBasketTemplate: HTMLTemplateElement =  ensureElement<HTMLTemplateElement>('#card-basket')
 
-const modalOrderTemplate: HTMLTemplateElement = document.querySelector('#order');
-const modalContactsTemplate: HTMLTemplateElement = document.querySelector('#contacts');
-const modalSuccessTemplate: HTMLTemplateElement = document.querySelector('#success');
+const modalOrderTemplate: HTMLTemplateElement =  ensureElement<HTMLTemplateElement>('#order');
+const modalContactsTemplate: HTMLTemplateElement =  ensureElement<HTMLTemplateElement>('#contacts');
+const modalSuccessTemplate: HTMLTemplateElement =  ensureElement<HTMLTemplateElement>('#success');
 
 const orderModal = new Order(cloneTemplate(modalOrderTemplate), events);
 const contactsModal = new Contacts(cloneTemplate(modalContactsTemplate), events)
 
 
 const cardsContainer = document.querySelector('.gallery')
+
+const styleCategories =  {
+    _other: 'другое',
+    _soft: 'софт-скил',
+    _additional: 'дополнительное',
+    _button: 'кнопка',
+    _hard: 'хард-скил'
+}
+
+const getKeyByValue = (object: any, value: string) => {
+    return Object.keys(object).find(key =>
+        object[key] === value);
+}
 
 
 const modal = new Modal(document.querySelector('#modal-container'), events);
@@ -76,6 +89,11 @@ events.on('initialData:loaded', () => {
                 events.emit('card:select', item)
             }
         });     
+        // if (item.category = 'софт-скил') {
+            
+        // }
+        cardInstant.elementCategory.classList.add(`card__category${getKeyByValue(styleCategories, item.category)}`);
+
         return cardInstant.render(item);   
     });
     productList.render({catalog: cardsArray})
@@ -99,6 +117,8 @@ events.on('preview:changed', (item: IProduct) => {
 
     const card = cardInstant.render(item);
     
+    cardInstant.elementCategory.classList.add(`card__category${getKeyByValue(styleCategories, item.category)}`);
+
     if (appData.basket.some((el) => {return el === cardInstant.id})) {
         cardInstant.addBasketButton.textContent = 'Убрать из корзины'
     }
