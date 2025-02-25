@@ -3,6 +3,8 @@
 Это интернет-магазин с товарами для веб-разработчиков — Web-ларёк. В нём можно посмотреть каталог товаров, добавить товары в корзину и сделать заказ. 
 Стек: HTML, SCSS, TS, Webpack
 
+[Макет](<https://www.figma.com/file/vIywAvqfkOIRWGOkfOnReY/React-Fullstack_-Проектные-задачи-(3-месяца)_external_link?type=design&node-id=0-1&mode=design](https://www.figma.com/design/50YEgxY8IYDYj7UQu7yChb/Веб-ларёк?node-id=0-1&p=f&t=GmHUen8z4ZeYrGij-0)>)
+
 Структура проекта:
 - src/ — исходные файлы проекта
 - src/components/ — папка с JS компонентами
